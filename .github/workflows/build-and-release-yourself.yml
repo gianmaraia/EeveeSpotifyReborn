@@ -28,7 +28,7 @@ jobs:
 
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: 'latest-stable'
+          xcode-version: '16.x'
 
       - name: Hide Sensitive Inputs
         uses: levibostian/action-hide-sensitive-inputs@v1
@@ -53,10 +53,8 @@ jobs:
 
       - name: Download SwiftProtobuf
         run: |
-          wget https://github.com/whoeevee/swift-protobuf/releases/download/${{ env.SWIFTPROTOBUF_VERSION }}/org.swift.protobuf.swiftprotobuf_${{ env.SWIFTPROTOBUF_VERSION }}_iphoneos-arm.deb
-          wget https://github.com/whoeevee/swift-protobuf/releases/download/${{ env.SWIFTPROTOBUF_VERSION }}/org.swift.protobuf.swiftprotobuf_${{ env.SWIFTPROTOBUF_VERSION }}_iphoneos-arm64.deb
+          wget https://github.com/whoeevee/EeveeSpotifyReborn/releases/download/swift6.2.2/org.swift.protobuf.swiftprotobuf_${{ env.SWIFTPROTOBUF_VERSION }}_iphoneos-arm64.deb -O org.swift.protobuf.swiftprotobuf_${{ env.SWIFTPROTOBUF_VERSION }}_iphoneos-arm64.deb
 
-          echo "SWIFTPROTOBUF_ROOTFUL=org.swift.protobuf.swiftprotobuf_${{ env.SWIFTPROTOBUF_VERSION }}_iphoneos-arm.deb" >> $GITHUB_ENV
           echo "SWIFTPROTOBUF_ROOTLESS=org.swift.protobuf.swiftprotobuf_${{ env.SWIFTPROTOBUF_VERSION }}_iphoneos-arm64.deb" >> $GITHUB_ENV
 
       - name: Download OpenSpotifySafariExtension
@@ -88,7 +86,7 @@ jobs:
       - name: Create EeveeSpotify Package
         run: |
           ivinject-arm64 spotify.ipa EeveeSpotify.ipa \
-            -i eeveespotify.deb "$SWIFTPROTOBUF_ROOTFUL" "$OPENSPOTIFYSAFARIEXTENSION" \
+            -i eeveespotify.deb "$SWIFTPROTOBUF_ROOTLESS" "$OPENSPOTIFYSAFARIEXTENSION" \
             -s - -d --level Optimal
 
       - name: Create Patched Package
